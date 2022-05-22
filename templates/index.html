@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>IoT 중간 프로젝트_1960047 전혜정</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h2>스마트 회전문 제어실</h2>
+        </div>
+        <div class="main">
+            <div>
+                <button onclick="sr_04()">자동회전문 운영</button>
+            </div>
+            <div>
+                <button onclick="sr_04()"> 비상정지 해제</button>
+            </div>
+            <div>
+                <button onclick="dht11()">온습도 측정</button>
+            </div>
+        </div>
+        <div id="result">
+
+        </div>
+    </div>
+    <script>
+        function sr_04(){
+            fetch("/SR-04")
+            .then(response=> { console.log(response); return response.text()})
+            .then(data=> {
+                console.log(data);
+                let result = document.querySelector("#result");
+                if(data=="ok"){
+                    result.innerHTML = "<h1>자동 회전문 운영 중입니다. </h1>";
+                }else{
+                    result.innerHTML = "<h1>error</h1>";
+                }
+            });
+        }
+        function dht11(){
+            fetch("DHT11")
+            .then(response=> response.text())
+            .then(data=> {
+                console.log(data);
+                let result = document.querySelector("#result");
+                if(data=="ok"){  
+                    result.innerHTML = "<h1>온도 조정 중 입니다.</h1>";
+                }else{
+                    result.innerHTML = "<h1>error</h1>";
+                }
+            });
+        }
+    </script>
+</body>
+</html>
